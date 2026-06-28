@@ -34,41 +34,78 @@ def build_report_typ() -> str:
         f'[{decision.selected_arm or "-"}], [{decision.reason}],'
         for decision in decisions
     )
-    routed_card = _metric_card("Routed", str(routed))
-    blocked_card = _metric_card("Blocked", str(blocked))
-    policy_card = _metric_card("Policy", "Thompson")
-    return f"""#set page(margin: 16mm)
+    return f"""#set page(margin: 15mm)
 #set text(font: "Arial", size: 10pt)
+#set heading(numbering: none)
 
-#text(size: 18pt, weight: "bold")[TradingView Bandit Alert Router]
+#let ink = rgb("#111827")
+#let muted = rgb("#64748b")
+#let panel = rgb("#f3f6fb")
+#let line = rgb("#d7dee8")
+#let warn = rgb("#b45309")
 
-Sample routing report for a Thompson Sampling alert workflow.
+#let card(label, value, note: none) = block[
+  #rect(fill: panel, radius: 6pt, inset: 9pt, width: 100%)[
+    #text(size: 8pt, fill: muted, weight: "bold")[#upper(label)]
+    #linebreak()
+    #text(size: 19pt, fill: ink, weight: "bold")[#value]
+    #if note != none [#linebreak() #text(size: 8pt, fill: muted)[#note]]
+  ]
+]
+
+#let check(label, value) = block[
+  #text(weight: "bold")[#label]
+  #linebreak()
+  #text(fill: muted)[#value]
+]
+
+#text(size: 22pt, weight: "bold", fill: ink)[TradingView Bandit Alert Router]
+
+#text(fill: muted)[
+  Sample routing report for a Thompson Sampling alert workflow. The router validates,
+  blocks, routes, and records feedback without touching broker execution.
+]
 
 #grid(columns: (1fr, 1fr, 1fr), gutter: 8pt)[
-{routed_card}
+  #card("Routed", "{routed}", note: "accepted alerts")
 ][
-{blocked_card}
+  #card("Blocked", "{blocked}", note: "guarded before policy")
 ][
-{policy_card}
+  #card("Policy", "Thompson", note: "route selection")
 ]
 
 #v(10pt)
-#text(size: 12pt, weight: "bold")[Decision Log]
-
-#table(
-  columns: (1fr, .7fr, 1fr, 2fr),
-  [Alert], [Status], [Route], [Reason],
+#grid(columns: (1.75fr, .95fr), gutter: 14pt)[
+  #text(size: 13pt, weight: "bold")[Decision Log]
+  #v(4pt)
+  #table(
+    columns: (.9fr, .6fr, 1.25fr, 2.25fr),
+    stroke: line,
+    inset: 5pt,
+    [*Alert*], [*Status*], [*Route*], [*Reason*],
 {rows}
-)
+  )
+][
+  #text(size: 13pt, weight: "bold")[Evidence Contract]
+  #v(4pt)
+  #block(stroke: line, radius: 6pt, inset: 8pt)[
+    #check("Validation", "Pydantic rejects malformed webhook payloads.")
+    #v(5pt)
+    #check("Idempotency", "Duplicate alert IDs do not receive new route decisions.")
+    #v(5pt)
+    #check("Risk guard", "Low-confidence or oversized alerts are blocked first.")
+    #v(5pt)
+    #check("Boundary", "Routing feedback is not a profit forecast.")
+  ]
+]
+
+#v(10pt)
+#block(fill: rgb("#fffbeb"), radius: 6pt, inset: 8pt)[
+  #text(weight: "bold", fill: warn)[Interpretation:] This service is a decision
+  router. Live capital deployment, broker credentials, and exchange adapters belong
+  in a separate, stricter execution boundary.
+]
 """
-
-
-def _metric_card(label: str, value: str) -> str:
-    return (
-        f'  #block(fill: rgb("#f3f6fb"), radius: 4pt, inset: 8pt)'
-        f'[{label}\\ #text(size: 18pt, weight: "bold")[{value}]]'
-    )
-
 
 def write_report(output_dir: Path = Path("docs/samples")) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -84,3 +121,7 @@ def write_report(output_dir: Path = Path("docs/samples")) -> Path:
 
 def main() -> None:
     print(write_report())
+
+
+if __name__ == "__main__":
+    main()

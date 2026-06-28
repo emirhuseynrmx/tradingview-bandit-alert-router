@@ -32,7 +32,7 @@ Most TradingView automation jumps from alert to execution too quickly. This repo
 
 ## Sample Output
 
-![Bandit alert router report preview](docs/samples/bandit_alert_router_report.png)
+![Bandit alert router report preview](docs/assets/bandit-alert-router-report-preview.png)
 
 - [PDF report](docs/samples/bandit_alert_router_report.pdf)
 - [Sample alert stream](examples/sample_alerts.jsonl)
@@ -82,3 +82,10 @@ uvicorn tradingview_bandit_router.app:app --reload
 ## Scope
 
 This router is intentionally the decision layer. Broker execution, credential storage, exchange adapters, and live capital deployment should be separate systems with stricter controls.
+
+## Evidence Contract
+
+- Pydantic validates every TradingView payload before routing.
+- Idempotency prevents duplicate alerts from receiving multiple policy decisions.
+- Risk guards run before Thompson Sampling so blocked alerts never enter routing arms.
+- Reward feedback updates route quality; it does not imply future trading performance.
