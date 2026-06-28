@@ -26,6 +26,7 @@ dev = [
 
 [project.scripts]
 tv-bandit-demo = "tradingview_bandit_router.cli:app"
+tv-bandit-report = "tradingview_bandit_router.reporting:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -30,6 +30,13 @@ Most TradingView automation jumps from alert to execution too quickly. This repo
 - Litestar endpoints and CLI replay demo
 - Ruff + pytest + coverage-ready project layout
 
+## Sample Output
+
+![Bandit alert router report preview](docs/samples/bandit_alert_router_report.png)
+
+- [PDF report](docs/samples/bandit_alert_router_report.pdf)
+- [Sample alert stream](examples/sample_alerts.jsonl)
+
 ## Quickstart
 
 ```bash
