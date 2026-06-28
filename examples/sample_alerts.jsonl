@@ -1,0 +1,4 @@
+{"alert_id":"alert-0001","strategy":"breakout_v1","symbol":"BTCUSDT","timeframe":"15m","side":"long","confidence":0.72,"price":64000,"risk_usd":250,"features":{"atr_pct":0.02,"volume_z":1.8}}
+{"alert_id":"alert-0002","strategy":"mean_reversion_v2","symbol":"ETHUSDT","timeframe":"1h","side":"short","confidence":0.64,"price":3400,"risk_usd":600,"features":{"rsi":78,"volatility_z":1.1}}
+{"alert_id":"alert-0003","strategy":"breakout_v1","symbol":"BTCUSDT","timeframe":"15m","side":"long","confidence":0.49,"price":64100,"risk_usd":250,"features":{"atr_pct":0.021,"volume_z":1.2}}
+
