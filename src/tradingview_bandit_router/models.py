@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from enum import StrEnum
 from typing import Any
 
@@ -30,7 +30,7 @@ class TradingViewAlert(BaseModel):
     confidence: float = Field(ge=0, le=1)
     price: float = Field(gt=0)
     risk_usd: float = Field(gt=0, le=100_000)
-    sent_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    sent_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     features: dict[str, float] = Field(default_factory=dict)
 
     @field_validator("symbol", "strategy")
@@ -95,7 +95,7 @@ class RouteDecision(BaseModel):
     channel: str | None = None
     posterior_mean: float | None = None
     reason: str
-    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class RewardEvent(BaseModel):
@@ -114,4 +114,3 @@ class RouterSnapshot(BaseModel):
     arms: list[RouteArm]
     routed_alert_ids: set[str] = Field(default_factory=set)
     audit_log: list[dict[str, Any]] = Field(default_factory=list)
-
