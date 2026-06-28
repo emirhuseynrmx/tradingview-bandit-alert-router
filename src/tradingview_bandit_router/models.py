@@ -122,3 +122,22 @@ class RouterSnapshot(BaseModel):
     arms: list[RouteArm]
     routed_alert_ids: set[str] = Field(default_factory=set)
     audit_log: list[dict[str, Any]] = Field(default_factory=list)
+
+
+class EvidenceCheck(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    check: str
+    status: str
+    evidence: str
+
+
+class RouterEvidence(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    routed: int
+    blocked: int
+    duplicates: int
+    rewards: int
+    active_arms: int
+    checks: list[EvidenceCheck]

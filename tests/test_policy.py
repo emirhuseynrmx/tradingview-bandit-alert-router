@@ -68,3 +68,17 @@ def test_reward_updates_selected_arm() -> None:
     arm = router.update_reward(RewardEvent(alert_id="alert-0001", selected_arm="paper", reward=1.0))
 
     assert arm.posterior_mean > before
+
+
+def test_router_evidence_summarizes_audit_log() -> None:
+    router = make_router()
+    router.decide(make_alert())
+    router.decide(make_alert())
+    router.decide(make_alert(alert_id="alert-0002", confidence=0.1))
+
+    evidence = router.evidence()
+
+    assert evidence.routed == 1
+    assert evidence.duplicates == 1
+    assert evidence.blocked == 1
+    assert {check.check for check in evidence.checks} >= {"idempotency", "claim_boundary"}
