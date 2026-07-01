@@ -71,6 +71,6 @@ def replay(sample: Path = Path("examples/sample_alerts.jsonl")) -> None:
     typer.echo("Evidence Contract")
     typer.echo("-" * 45)
     for check in evidence.checks:
-        icon = "✓" if check.status == "pass" else "⚠" if check.status == "review" else "✗"
+        icon = "[OK]" if check.status == "pass" else "[!!]" if check.status == "review" else "[X]"
         typer.echo(f"  [{icon}] {check.check}: {check.evidence}")
     typer.echo("")
