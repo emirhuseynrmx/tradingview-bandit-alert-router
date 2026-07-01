@@ -25,7 +25,10 @@
 
 #text(size: 22pt, weight: "bold", fill: ink)[TradingView Bandit Alert Router]
 
-#text(fill: muted)[Sample routing report for a Thompson Sampling alert workflow. The router validates, blocks, routes, and records feedback without touching broker execution.]
+#text(fill: muted)[
+  Sample routing report for a Thompson Sampling alert workflow. The router validates,
+  blocks, routes, and records feedback without touching broker execution.
+]
 
 #grid(columns: (1fr, 1fr, 1fr), gutter: 8pt)[
   #card("Routed", "3", note: "accepted alerts")
@@ -65,5 +68,7 @@
 
 #v(10pt)
 #block(fill: rgb("#fffbeb"), radius: 6pt, inset: 8pt)[
-  #text(weight: "bold", fill: warn)[Interpretation:] This service is a decision router. Live capital deployment, broker credentials, and exchange adapters belong in a separate, stricter execution boundary.
+  #text(weight: "bold", fill: warn)[Interpretation:] This service is a decision
+  router. Live capital deployment, broker credentials, and exchange adapters belong
+  in a separate, stricter execution boundary.
 ]
